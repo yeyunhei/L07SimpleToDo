@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">L07Simple To Do</string>
+    <string name="enteractivity">Type in a new task here</string>
+    <string name="enterpos">Type in the index of the task to be removed</string>
+    <string name="add">Add</string>
+    <string name="clear">Clear</string>
+    <string-array name="addremove"><item>Add a new task</item>
+    <item>Remove a task</item></string-array>
+    <string name="del">Delete</string>
+
+
+
+</resources>
