@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputType;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -39,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
         btnDelete = findViewById(R.id.buttonDel);
 
         activityList = new ArrayList<>();
-        activityList.add("test");
 
         ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, activityList);
         tdList.setAdapter(adapter);
@@ -51,10 +52,14 @@ public class MainActivity extends AppCompatActivity {
                     btnAdd.setTextColor(Color.BLACK);
                     btnDelete.setTextColor(Color.GRAY);
                     newActivity.setHint(R.string.enteractivity);
+                    newActivity.setInputType(InputType.TYPE_CLASS_TEXT);
+                    newActivity.setText("");
                 } else {
                     btnAdd.setTextColor(Color.GRAY);
                     btnDelete.setTextColor(Color.BLACK);
                     newActivity.setHint(R.string.enterpos);
+                    newActivity.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    newActivity.setText("");
                 }
             }
 
@@ -69,7 +74,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (spnAddRemove.getSelectedItemPosition() == 0) {
                     String newTask = newActivity.getText().toString();
+                    if (newTask.isEmpty()) {
+                        Toast emptyInput = Toast.makeText(getApplicationContext(), "No input given", Toast.LENGTH_SHORT);
+                        emptyInput.show();
+                    } else {
                     activityList.add(newTask);
+                    }
                 } else {
                     Toast invalid = Toast.makeText(getApplicationContext(), "Button disabled for this mode", Toast.LENGTH_SHORT);
                     invalid.show();
@@ -82,16 +92,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (spnAddRemove.getSelectedItemPosition() == 1) {
-                    if (activityList.isEmpty()) {
-                        Toast emptyList = Toast.makeText(getApplicationContext(), "You don't have any tasks to remove", Toast.LENGTH_SHORT);
-                        emptyList.show();
-                    }
-                    int taskPos = Integer.parseInt(newActivity.getText().toString());
-                    if (taskPos < activityList.size()) {
-                        activityList.remove(taskPos);
-                    } else if (!activityList.isEmpty() && taskPos >= activityList.size()) {
-                        Toast invalidpos = Toast.makeText(getApplicationContext(), "Wrong index number", Toast.LENGTH_SHORT);
-                        invalidpos.show();
+                    if (newActivity.getText().toString().isEmpty()) {
+                        Toast emptyInput = Toast.makeText(getApplicationContext(), "No input given", Toast.LENGTH_SHORT);
+                        emptyInput.show();
+                    } else {
+                        if (activityList.isEmpty()) {
+                            Toast emptyList = Toast.makeText(getApplicationContext(), "You don't have any tasks to remove", Toast.LENGTH_SHORT);
+                            emptyList.show();
+                        }
+                        int taskPos = Integer.parseInt(newActivity.getText().toString());
+                        if (taskPos < activityList.size()) {
+                            activityList.remove(taskPos);
+                        } else if (!activityList.isEmpty() && taskPos >= activityList.size()) {
+                            Toast invalidpos = Toast.makeText(getApplicationContext(), "Wrong index number", Toast.LENGTH_SHORT);
+                            invalidpos.show();
+                        }
                     }
                 } else {
                     Toast invalid = Toast.makeText(getApplicationContext(), "Button disabled for this mode", Toast.LENGTH_SHORT);
